@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NetLearn - Mekanisme Jaringan</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#070b16;
+    color:#f1f5ff;
+    line-height:1.7;
+}
+
+/* HEADER */
+
+header{
+    padding:70px 20px;
+    text-align:center;
+    background:
+    radial-gradient(circle at top,#1d2b64,#070b16 65%);
+}
+
+header h1{
+    font-size:clamp(40px,8vw,75px);
+}
+
+header h1 span{
+    color:#00d9ff;
+}
+
+header p{
+    max-width:700px;
+    margin:20px auto;
+    color:#aab6ce;
+}
+
+/* NAV */
+
+nav{
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:#0b1222ee;
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid #263654;
+    padding:15px;
+    text-align:center;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:0 10px;
+    font-size:14px;
+}
+
+nav a:hover{
+    color:#00d9ff;
+}
+
+/* SECTION */
+
+section{
+    width:min(1100px,90%);
+    margin:auto;
+    padding:70px 0;
+}
+
+.title{
+    font-size:35px;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#9daac1;
+    margin-bottom:30px;
+}
+
+/* CARDS */
+
+.grid{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(230px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#10192b;
+    border:1px solid #263654;
+    border-radius:16px;
+    padding:25px;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    border-color:#00d9ff;
+}
+
+.card h3{
+    color:#00d9ff;
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#b5c0d5;
+}
+
+.icon{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+/* MEKANISME */
+
+.mechanism{
+    margin-top:20px;
+    background:#0d1628;
+    border:1px solid #263654;
+    border-radius:16px;
+    padding:25px;
+}
+
+.step{
+    display:flex;
+    gap:15px;
+    padding:15px;
+    margin:10px 0;
+    background:#111d32;
+    border-radius:10px;
+    border-left:4px solid #00d9ff;
+}
+
+.number{
+    min-width:35px;
+    height:35px;
+    border-radius:50%;
+    background:#00d9ff;
+    color:#06101b;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+/* NETWORK */
+
+.network{
+    position:relative;
+    min-height:420px;
+    margin-top:30px;
+    background:
+    radial-gradient(circle,#101e35,#070d19);
+    border:1px solid #263654;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+/* NODE */
+
+.node{
+    position:absolute;
+    width:100px;
+    padding:15px 5px;
+    text-align:center;
+    background:#16243b;
+    border:2px solid #00d9ff;
+    border-radius:12px;
+    z-index:2;
+}
+
+.node small{
+    display:block;
+    color:#9daac1;
+}
+
+/* POSISI */
+
+.pc1{
+    left:7%;
+    top:10%;
+}
+
+.pc2{
+    left:7%;
+    top:72%;
+}
+
+.access{
+    left:35%;
+    top:39%;
+}
+
+.distribution{
+    left:60%;
+    top:39%;
+}
+
+.core{
+    right:7%;
+    top:39%;
+}
+
+/* LINES */
+
+.connection{
+    position:absolute;
+    height:4px;
+    background:#274765;
+    transform-origin:left center;
+    z-index:1;
+}
+
+.line1{
+    left:15%;
+    top:23%;
+    width:230px;
+    transform:rotate(24deg);
+}
+
+.line2{
+    left:15%;
+    top:77%;
+    width:230px;
+    transform:rotate(-24deg);
+}
+
+.line3{
+    left:43%;
+    top:50%;
+    width:180px;
+}
+
+.line4{
+    left:68%;
+    top:50%;
+    width:190px;
+}
+
+/* DATA PACKET */
+
+.packet{
+    position:absolute;
+    width:25px;
+    height:25px;
+    border-radius:50%;
+    background:#35e69a;
+    box-shadow:0 0 20px #35e69a;
+    z-index:5;
+    display:none;
+}
+
+/* INFO */
+
+.info{
+    margin-top:25px;
+    padding:25px;
+    background:#10192b;
+    border:1px solid #263654;
+    border-radius:15px;
+}
+
+.info h3{
+    color:#35e69a;
+    margin-bottom:10px;
+}
+
+/* BUTTON */
+
+button{
+    border:none;
+    background:#00d9ff;
+    color:#06101b;
+    padding:13px 20px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:15px;
+}
+
+button:hover{
+    opacity:.8;
+}
+
+/* TABLE */
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:#10192b;
+}
+
+th,td{
+    border:1px solid #263654;
+    padding:15px;
+    text-align:left;
+}
+
+th{
+    color:#00d9ff;
+    background:#16243b;
+}
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    padding:50px;
+    border-top:1px solid #263654;
+    color:#8795ad;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    nav a{
+        display:inline-block;
+        margin:5px;
+    }
+
+    .network{
+        min-height:600px;
+    }
+
+    .pc1{
+        left:8%;
+        top:5%;
+    }
+
+    .pc2{
+        left:8%;
+        top:80%;
+    }
+
+    .access{
+        left:35%;
+        top:28%;
+    }
+
+    .distribution{
+        left:35%;
+        top:50%;
+    }
+
+    .core{
+        left:35%;
+        top:72%;
+    }
+
+    .line1,
+    .line2,
+    .line3,
+    .line4{
+        display:none;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>NET<span>LEARN</span></h1>
+
+<p>
+Memahami mekanisme perangkat dan struktur jaringan komputer
+melalui visualisasi dan simulasi interaktif.
+</p>
+
+</header>
+
+
+<nav>
+
+<a href="#komponen">Komponen</a>
+<a href="#mekanisme">Mekanisme</a>
+<a href="#simulasi">Simulasi</a>
+<a href="#ringkasan">Ringkasan</a>
+
+</nav>
+
+
+<!-- KOMPONEN -->
+
+<section id="komponen">
+
+<h2 class="title">
+Komponen Jaringan
+</h2>
+
+<p class="subtitle">
+Klik atau baca setiap komponen untuk memahami perannya.
+</p>
+
+
+<div class="grid">
+
+
+<div class="card">
+
+<div class="icon">💻</div>
+
+<h3>PC</h3>
+
+<p>
+PC atau Personal Computer merupakan perangkat akhir
+yang digunakan untuk mengirim atau menerima data.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">🔀</div>
+
+<h3>Switch</h3>
+
+<p>
+Switch menghubungkan beberapa perangkat dalam jaringan
+lokal dan meneruskan frame berdasarkan MAC address.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">🛣️</div>
+
+<h3>Backbone</h3>
+
+<p>
+Backbone adalah jalur utama jaringan yang membawa
+trafik dari berbagai bagian jaringan.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">🏢</div>
+
+<h3>Distribution</h3>
+
+<p>
+Distribution merupakan lapisan yang menghubungkan
+Access Layer dengan Core Layer dan dapat menjalankan
+fungsi routing serta policy tertentu.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">⚡</div>
+
+<h3>Core</h3>
+
+<p>
+Core merupakan bagian inti jaringan yang menyediakan
+konektivitas berkecepatan tinggi antarbagian jaringan.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">🌐</div>
+
+<h3>Router</h3>
+
+<p>
+Router menghubungkan jaringan yang berbeda dan
+meneruskan paket berdasarkan informasi routing.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- MEKANISME -->
+
+<section id="mekanisme">
+
+<h2 class="title">
+Mekanisme Kerja
+</h2>
+
+<p class="subtitle">
+Bagaimana data bergerak dari satu PC menuju jaringan lain?
+</p>
+
+
+<div class="mechanism">
+
+<div class="step">
+
+<div class="number">1</div>
+
+<div>
+<b>PC membuat data</b>
+
+<p>
+Pengguna menjalankan aplikasi dan menghasilkan data,
+misalnya membuka website atau mengirim file.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="step">
+
+<div class="number">2</div>
+
+<div>
+
+<b>Data menuju Switch</b>
+
+<p>
+PC mengirim frame melalui media jaringan menuju switch.
+Switch melihat alamat MAC tujuan untuk menentukan
+port yang sesuai.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="step">
+
+<div class="number">3</div>
+
+<div>
+
+<b>Switch meneruskan frame</b>
+
+<p>
+Switch meneruskan frame menuju perangkat atau jalur
+yang sesuai berdasarkan informasi yang dimilikinya.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="step">
+
+<div class="number">4</div>
+
+<div>
+
+<b>Distribution mengatur antarbagian jaringan</b>
+
+<p>
+Pada jaringan hierarkis, distribution dapat mengagregasi
+access switch dan menjalankan fungsi seperti routing
+antar-VLAN atau penerapan kebijakan jaringan.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="step">
+
+<div class="number">5</div>
+
+<div>
+
+<b>Core meneruskan trafik</b>
+
+<p>
+Core menyediakan jalur utama berkecepatan tinggi
+untuk menghubungkan berbagai bagian jaringan.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="step">
+
+<div class="number">6</div>
+
+<div>
+
+<b>Router menghubungkan jaringan</b>
+
+<p>
+Jika tujuan berada pada jaringan berbeda, router
+menggunakan informasi IP dan tabel routing untuk
+menentukan jalur berikutnya.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="step">
+
+<div class="number">7</div>
+
+<div>
+
+<b>Data mencapai tujuan</b>
+
+<p>
+Paket akhirnya mencapai jaringan tujuan dan diteruskan
+menuju perangkat yang dituju.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SIMULASI -->
+
+<section id="simulasi">
+
+<h2 class="title">
+Simulasi Aliran Data
+</h2>
+
+<p class="subtitle">
+Tekan tombol untuk melihat simulasi sederhana perjalanan data.
+</p>
+
+
+<div class="network">
+
+<!-- CONNECTIONS -->
+
+<div class="connection line1"></div>
+<div class="connection line2"></div>
+<div class="connection line3"></div>
+<div class="connection line4"></div>
+
+
+<!-- DEVICES -->
+
+<div class="node pc1">
+
+💻 PC A
+
+<small>Source</small>
+
+</div>
+
+
+<div class="node pc2">
+
+💻 PC B
+
+<small>Client</small>
+
+</div>
+
+
+<div class="node access">
+
+🔀 ACCESS
+
+<small>Switch</small>
+
+</div>
+
+
+<div class="node distribution">
+
+🏢 DISTRIBUTION
+
+<small>Layer</small>
+
+</div>
+
+
+<div class="node core">
+
+⚡ CORE
+
+<small>Backbone</small>
+
+</div>
+
+
+<div class="packet" id="packet"></div>
+
+</div>
+
+
+<button onclick="startSimulation()">
+▶ Jalankan Simulasi
+</button>
+
+
+<div class="info">
+
+<h3 id="simulationTitle">
+Simulasi belum dimulai
+</h3>
+
+<p id="simulationText">
+Tekan tombol untuk menjalankan perjalanan data.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- PENJELASAN DETAIL -->
+
+<section>
+
+<h2 class="title">
+Penjelasan Mekanisme
+</h2>
+
+
+<div class="grid">
+
+
+<div class="card">
+
+<h3>PC → Switch</h3>
+
+<p>
+PC membentuk data kemudian data diproses oleh stack protokol
+dan dikirim melalui interface jaringan. Pada Ethernet,
+data dikirim sebagai frame menuju switch.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Switch → Distribution</h3>
+
+<p>
+Switch access menghubungkan perangkat akhir ke jaringan.
+Trafik kemudian dapat diteruskan menuju lapisan distribution
+untuk komunikasi antarsegmen jaringan.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Distribution → Core</h3>
+
+<p>
+Distribution mengagregasi trafik dari beberapa access switch.
+Core kemudian menyediakan konektivitas utama antarbagian jaringan.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Core → Router</h3>
+
+<p>
+Jika tujuan berada di jaringan lain, trafik dapat diteruskan
+ke router. Router memeriksa alamat IP tujuan dan memilih
+next hop berdasarkan routing table.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- RINGKASAN -->
+
+<section id="ringkasan">
+
+<h2 class="title">
+Ringkasan
+</h2>
+
+
+<div class="table-wrap">
+
+<table>
+
+<tr>
+
+<th>Komponen</th>
+<th>Fungsi</th>
+<th>Contoh Peran</th>
+
+</tr>
+
+
+<tr>
+
+<td>PC</td>
+
+<td>
+Menghasilkan dan menerima data.
+</td>
+
+<td>
+End device
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>Switch</td>
+
+<td>
+Menghubungkan perangkat LAN dan meneruskan frame.
+</td>
+
+<td>
+Access switch
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>Distribution</td>
+
+<td>
+Mengagregasi jaringan access dan dapat menjalankan routing/policy.
+</td>
+
+<td>
+Layer 3 switch
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>Backbone</td>
+
+<td>
+Jalur utama yang membawa trafik antarbagian jaringan.
+</td>
+
+<td>
+High-capacity link
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>Core</td>
+
+<td>
+Menyediakan konektivitas inti antarbagian jaringan.
+</td>
+
+<td>
+Core switch/router
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>Router</td>
+
+<td>
+Menghubungkan jaringan berbeda dan meneruskan paket IP.
+</td>
+
+<td>
+Gateway
+</td>
+
+</tr>
+
+
+</table>
+
+</div>
+
+</section>
+
+
+<footer>
+
+<p>
+NETLEARN • Informatika • Jaringan Komputer
+</p>
+
+<p>
+Belajar mekanisme, bukan sekadar menghafal istilah.
+</p>
+
+</footer>
+
+
+<script>
+
+function startSimulation(){
+
+    const packet =
+    document.getElementById("packet");
+
+    const title =
+    document.getElementById("simulationTitle");
+
+    const text =
+    document.getElementById("simulationText");
+
+
+    packet.style.display="block";
+
+
+    const steps = [
+
+        {
+            title:"1. PC membuat data",
+            text:
+            "PC A menghasilkan data yang akan dikirim melalui jaringan."
+        },
+
+        {
+            title:"2. Data menuju Access Switch",
+            text:
+            "Frame dikirim dari PC A menuju switch. Switch memeriksa informasi MAC address."
+        },
+
+        {
+            title:"3. Menuju Distribution",
+            text:
+            "Trafik diteruskan dari jaringan access menuju lapisan distribution."
+        },
+
+        {
+            title:"4. Menuju Core",
+            text:
+            "Core menyediakan jalur utama untuk membawa trafik menuju bagian jaringan berikutnya."
+        },
+
+        {
+            title:"5. Data melanjutkan perjalanan",
+            text:
+            "Dari core, trafik dapat diteruskan menuju jaringan atau perangkat berikutnya sesuai tujuan."
+        },
+
+        {
+            title:"6. Data mencapai tujuan",
+            text:
+            "Setelah melalui jalur jaringan yang sesuai, data akhirnya diterima oleh perangkat tujuan."
+        }
+
+    ];
+
+
+    let i=0;
+
+
+    const interval=setInterval(()=>{
+
+        title.textContent=
+        steps[i].title;
+
+        text.textContent=
+        steps[i].text;
+
+
+        i++;
+
+
+        if(i>=steps.length){
+
+            clearInterval(interval);
+
+            setTimeout(()=>{
+
+                packet.style.display="none";
+
+                title.textContent=
+                "Simulasi selesai";
+
+                text.textContent=
+                "Data telah melewati tahapan jaringan.";
+
+            },1500);
+
+        }
+
+    },1200);
+
+}
+
+</script>
+
+</body>
+</html>
